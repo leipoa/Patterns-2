@@ -62,7 +62,5 @@ public class DataGenerator {
         String password;
         String status;
     }
-
-
 }
 
