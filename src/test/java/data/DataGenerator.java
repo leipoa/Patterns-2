@@ -1,3 +1,4 @@
+package data;
 import com.github.javafaker.Faker;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
@@ -11,7 +12,6 @@ import static io.restassured.RestAssured.given;
 
 public class DataGenerator {
 
-    // спецификация нужна для того, чтобы переиспользовать настройки в разных запросах
     private static final RequestSpecification requestSpec = new RequestSpecBuilder()
             .setBaseUri("http://localhost")
             .setPort(9999)
@@ -19,9 +19,13 @@ public class DataGenerator {
             .setContentType(ContentType.JSON)
             .log(LogDetail.ALL)
             .build();
+    private static final Faker faker = new Faker(new Locale("en"));
 
+    private DataGenerator() {
 
-    public static void sendRequest(RegistrationDto user) {
+    }
+
+    private static void sendRequest(RegistrationDto user) {
         given()
                 .spec(requestSpec)
                 .body(user)
@@ -31,20 +35,21 @@ public class DataGenerator {
                 .statusCode(200);
     }
 
-    private static final Faker faker = new Faker(new Locale("en"));
-
-    public static String getRandomLogin(){
-        return faker.name().username();
-    }
-    public static String getRandomPassword(){
-        return faker.internet().password();
+    public static String getRandomLogin() {
+        String login = faker.name().username();
+        return login;
     }
 
+    public static String getRandomPassword() {
+        String password = faker.internet().password();
+        return password;
 
+    }
 
     public static class Registration {
         private Registration() {
         }
+
         public static RegistrationDto getUser(String status) {
             var user = new RegistrationDto(getRandomLogin(), getRandomPassword(), status);
             return user;
@@ -56,6 +61,7 @@ public class DataGenerator {
             return registeredUser;
         }
     }
+
     @Value
     public static class RegistrationDto {
         String login;
@@ -63,4 +69,3 @@ public class DataGenerator {
         String status;
     }
 }
-
