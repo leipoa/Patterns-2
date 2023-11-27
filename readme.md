@@ -1,0 +1,1 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/26608pulpb54m829?svg=true)](https://ci.appveyor.com/project/leipoa/patterns-2)
